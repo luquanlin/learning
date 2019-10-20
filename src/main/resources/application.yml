@@ -1,0 +1,8 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    name: pingjiao
+    username: root
+    password: 123456
+    url: jdbc:mysql://101.132.167.21:3306/pingjiao?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
