@@ -2,7 +2,9 @@ server:
   port: 8081
 spring:
   datasource:
-    name: pingjiao
+    name: learning
     username: root
     password: 123456
-    url: jdbc:mysql://101.132.167.21:3306/pingjiao?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://101.132.167.21:3306/learning?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
