@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,9 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
+
     @ApiOperation(value="登陆时查询用户是否存在", notes="data:1登陆成功，0登陆失败",httpMethod = "POST")
     @ApiImplicitParams ({
         @ApiImplicitParam(paramType="query",name = "user_account" ,value = "用户账号",required = true,dataType = "string"),
@@ -39,6 +43,7 @@ public class LoginController {
     public Map selectUserLogin(@RequestParam("user_account") String user_account, @RequestParam("user_password") String user_password){
         Map result = new HashMap();
         List<HashMap> user = loginService.selectUserLogin(user_account,user_password);
+
         if(user.size()>0){
             result.put("data",1);
         }else {
@@ -58,4 +63,5 @@ public class LoginController {
     public String GoLogin(){
         return "login/login";
     }
+
 }
