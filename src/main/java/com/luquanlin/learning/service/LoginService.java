@@ -1,6 +1,7 @@
 package com.luquanlin.learning.service;
 
-import java.util.HashMap;
+import com.luquanlin.learning.entity.User;
+
 import java.util.List;
 
 /**
@@ -9,5 +10,6 @@ import java.util.List;
  * @VERSION: 1.0
  **/
 public interface LoginService {
-    List<HashMap> selectUserLogin(String user_account,String user_password);
+    List<User> selectUserLogin(String user_account,String user_password);
+    List<User> selectAllUser();
 }

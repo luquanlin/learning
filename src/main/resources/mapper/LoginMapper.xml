@@ -4,7 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luquanlin.learning.mapper.LoginMapper">
     <!--查询登陆是否有用户-->
-    <select id="selectUserLogin" resultType="HashMap">
+    <select id="selectUserLogin" resultType="com.luquanlin.learning.entity.User">
         select * from user where user_account=#{user_account} and user_password=#{user_password}
+    </select>
+
+    <!--查询所有用户-->
+    <select id="selectAllUser" resultType="com.luquanlin.learning.entity.User">
+        select * from user
     </select>
 </mapper>

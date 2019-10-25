@@ -1,12 +1,14 @@
 package com.luquanlin.learning.entity;
 
+import java.io.Serializable;
+
 /**
  * @Author: luquanlin
  * @Date: 2019/10/24 17:02
  * @VERSION: 1.0
  **/
 
-public class UserRole {
+public class UserRole implements Serializable {
     private int userrole_id;
     private int user_id;
     private int role_id;

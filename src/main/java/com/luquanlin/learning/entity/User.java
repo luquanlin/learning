@@ -1,12 +1,14 @@
 package com.luquanlin.learning.entity;
 
+import java.io.Serializable;
+
 /**
  * @Author: luquanlin
  * @Date: 2019/10/24 16:59
  * @VERSION: 1.0
  **/
 
-public class User {
+public class User implements Serializable {
     private int user_id;
     private String user_account;
     private String user_password;

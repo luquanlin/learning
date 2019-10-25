@@ -1,8 +1,8 @@
 package com.luquanlin.learning.mapper;
 
+import com.luquanlin.learning.entity.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,5 +12,6 @@ import java.util.List;
  **/
 @Repository
 public interface LoginMapper {
-    List<HashMap> selectUserLogin(String user_account,String user_password);
+    List<User> selectUserLogin(String user_account,String user_password);
+    List<User> selectAllUser();
 }

@@ -3,13 +3,18 @@ package com.luquanlin.learning.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -39,24 +44,39 @@ public class RedisConfig extends CachingConfigurerSupport {
         jacksonSeial.setObjectMapper(om);
 
         // 值采用json序列化
-        template.setValueSerializer(jacksonSeial);
+        template.setValueSerializer(new StringRedisSerializer());
         //使用StringRedisSerializer来序列化和反序列化redis的key值
         template.setKeySerializer(new StringRedisSerializer());
 
         // 设置hash key 和value序列化模式
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(jacksonSeial);
+        template.setHashValueSerializer(new StringRedisSerializer());
         template.afterPropertiesSet();
 
         return template;
     }
 
-    /**
-     * 对hash类型的数据操作
-     *
-     * @param redisTemplate
-     * @return
-     */
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory factory) {
+        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+
+        // 配置序列化
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+        RedisCacheConfiguration redisCacheConfiguration = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer));
+
+        return RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration).build();
+    }
+
+
+
+        /**
+         * 对hash类型的数据操作
+         *
+         * @param redisTemplate
+         * @return
+         */
     @Bean
     public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForHash();

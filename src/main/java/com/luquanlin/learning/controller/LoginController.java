@@ -1,5 +1,6 @@
 package com.luquanlin.learning.controller;
 
+import com.luquanlin.learning.entity.User;
 import com.luquanlin.learning.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,13 +43,23 @@ public class LoginController {
     @RequestMapping("/selectUserLogin")
     public Map selectUserLogin(@RequestParam("user_account") String user_account, @RequestParam("user_password") String user_password){
         Map result = new HashMap();
-        List<HashMap> user = loginService.selectUserLogin(user_account,user_password);
+        List<User> user = loginService.selectUserLogin(user_account,user_password);
 
         if(user.size()>0){
             result.put("data",1);
         }else {
             result.put("data",0);
         }
+        return result;
+    }
+
+    @ApiOperation(value="查询所有用户", notes="直接返回数据",httpMethod = "POST")
+    @ResponseBody
+    @RequestMapping("/selectAllUser")
+    public Map selectAllUser(){
+        Map result = new HashMap();
+        List<User> user = loginService.selectAllUser();
+        result.put("data",user);
         return result;
     }
 

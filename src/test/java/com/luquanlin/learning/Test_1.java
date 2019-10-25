@@ -22,7 +22,7 @@ public class Test_1{
 
     @Test
     public void set(){
-        redisTemplate.opsForValue().set("myKey","myValueObject0.0");
-        System.out.println(redisTemplate.opsForValue().get("myKey"));
+//        redisTemplate.opsForValue().set("myKey","myValueObject0.0");
+        System.out.println(redisTemplate.opsForValue().get("users::selectAllUser"));
     }
 }
