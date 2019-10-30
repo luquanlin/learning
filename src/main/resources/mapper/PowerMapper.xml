@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.PowerMapper">
+    <!--查询登陆用户的所有权限-->
+    <select id="selectUserPower" resultType="com.luquanlin.learning.entity.Power">
+        select p.* from userrole ur
+          left join rolepower rp on ur.role_id=rp.role_id
+          left join power p on rp.power_id=p.power_id
+        where ur.user_id=#{user_id} and p.power_name!=""
+    </select>
+</mapper>

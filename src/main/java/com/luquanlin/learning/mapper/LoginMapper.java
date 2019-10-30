@@ -14,4 +14,6 @@ import java.util.List;
 public interface LoginMapper {
     List<User> selectUserLogin(String user_account,String user_password);
     List<User> selectAllUser();
+    int insertUser(String user_name,String user_account,String user_password,String user_sex);
+    List<User> selectUserAccount(String user_account);
 }

@@ -34,4 +34,18 @@ public class LoginServiceImpl implements LoginService {
     public List<User> selectAllUser() {
         return loginMapper.selectAllUser();
     }
+
+    @Override
+    public boolean insertUser(String user_name, String user_account, String user_password, String user_sex) {
+       int userResult = loginMapper.insertUser(user_name, user_account, user_password, user_sex);
+       if (userResult > 0){
+           return true;
+       }
+        return false;
+    }
+
+    @Override
+    public List<User> selectUserAccount(String user_account) {
+        return loginMapper.selectUserAccount(user_account);
+    }
 }

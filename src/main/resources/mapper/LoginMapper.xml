@@ -12,4 +12,15 @@
     <select id="selectAllUser" resultType="com.luquanlin.learning.entity.User">
         select * from user
     </select>
+
+    <!--用户注册-->
+    <insert id="insertUser" parameterType="com.luquanlin.learning.entity.User">
+        insert into user(user_name,user_account,user_password,user_sex)
+        values (#{user_name},#{user_account},#{user_password},#{user_sex})
+    </insert>
+
+    <!--查询用户账号是否已存在-->
+    <select id="selectUserAccount" resultType="com.luquanlin.learning.entity.User">
+        select * from user where user_account=#{user_account}
+    </select>
 </mapper>

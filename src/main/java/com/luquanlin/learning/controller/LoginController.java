@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -41,7 +40,7 @@ public class LoginController {
     })
     @ResponseBody
     @RequestMapping("/selectUserLogin")
-    public Map selectUserLogin(@RequestParam("user_account") String user_account, @RequestParam("user_password") String user_password){
+    public Map selectUserLogin(String user_account,String user_password){
         Map result = new HashMap();
         List<User> user = loginService.selectUserLogin(user_account,user_password);
 
@@ -60,6 +59,41 @@ public class LoginController {
         Map result = new HashMap();
         List<User> user = loginService.selectAllUser();
         result.put("data",user);
+        return result;
+    }
+
+    @ApiOperation(value="用户注册", notes="1：成功，0：失败",httpMethod = "POST")
+    @ApiImplicitParams ({
+            @ApiImplicitParam(paramType="query",name = "user_name" ,value = "用户昵称",required = true,dataType = "string"),
+            @ApiImplicitParam(paramType="query",name = "user_account" ,value = "用户账号",required = true,dataType = "string"),
+            @ApiImplicitParam(paramType="query",name = "user_password" ,value = "用户密码",required = true,dataType = "string"),
+            @ApiImplicitParam(paramType="query",name = "user_sex" ,value = "用户性别",required = true,dataType = "string")
+    })
+    @ResponseBody
+    @RequestMapping("/insertUser")
+    public Map insertUser(String user_name, String user_account, String user_password, String user_sex){
+        Map result = new HashMap();
+        if(loginService.insertUser(user_name, user_account, user_password, user_sex)){
+            result.put("data",1);
+        }else{
+            result.put("data",0);
+        }
+        return result;
+    }
+
+    @ApiOperation(value="查询手机号是否存在", notes="1：存在，0：不存在",httpMethod = "POST")
+    @ApiImplicitParam(paramType="query",name = "user_account" ,value = "用户账号",required = true,dataType = "string")
+    @ResponseBody
+    @RequestMapping("/selectUserAccount")
+    public Map selectUserAccount(String user_account){
+        Map result = new HashMap();
+        List<User> user = loginService.selectUserAccount(user_account);
+
+        if(user.size()>0){
+            result.put("data",1);
+        }else {
+            result.put("data",0);
+        }
         return result;
     }
 

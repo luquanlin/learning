@@ -12,4 +12,6 @@ import java.util.List;
 public interface LoginService {
     List<User> selectUserLogin(String user_account,String user_password);
     List<User> selectAllUser();
+    boolean insertUser(String user_name,String user_account,String user_password,String user_sex);
+    List<User> selectUserAccount(String user_account);
 }
