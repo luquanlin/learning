@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.RoleMapper">
+    <!--查询所有角色-->
+    <select id="selectAllRole" resultType="com.luquanlin.learning.entity.Role">
+        select * from role where role_state=1
+    </select>
+
+    <!--删除角色-->
+    <update id="updateUserRoleState">
+        update role set role_state=0 where role_id=#{role_id}
+    </update>
+
+    <!--修改角色名称-->
+    <update id="updateRoleName">
+        update role set role_name=#{role_name} where role_id=#{role_id}
+    </update>
+
+    <!--添加角色-->
+    <insert id="insertRoleName" keyProperty="role_id" parameterType="com.luquanlin.learning.entity.Role">
+        insert into role(role_name) values(#{role_name})
+    </insert>
+    
+    <!--模糊搜索-->
+    <select id="selectVagueRole" resultType="com.luquanlin.learning.entity.Role">
+        select * from role where role_name=#{role_name} and role_state=1
+    </select>
+
+    <!--查询该角色有哪些权限-->
+    <select id="selectRolePowers" resultType="com.luquanlin.learning.entity.RolePower">
+        select rp.power_id from rolepower rp
+          left join power p on p.power_id=rp.power_id
+        where rp.role_id=#{role_id} and p.power_parentid!=0
+    </select>
+
+    <!--先删除角色的所有权限-->
+    <delete id="deleteRolePower">
+        delete  from rolepower where role_id=#{role_id}
+    </delete>
+    <!--再加上权限-->
+    <insert id="insertRolePower">
+        insert into rolepower(role_id,power_id) values(#{role_id},#{power_id})
+    </insert>
+    <!--查询新插入角色的ID-->
+    <select id="selectRoleMaxId" resultType="com.luquanlin.learning.entity.Role">
+        select max(role_id) as role_id from role;
+    </select>
+</mapper>

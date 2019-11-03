@@ -10,4 +10,9 @@
           left join power p on rp.power_id=p.power_id
         where ur.user_id=#{user_id} and p.power_name!=""
     </select>
+
+    <!--查询所有权限-->
+    <select id="selectAllPower" resultType="com.luquanlin.learning.entity.Power">
+        select * from power
+    </select>
 </mapper>

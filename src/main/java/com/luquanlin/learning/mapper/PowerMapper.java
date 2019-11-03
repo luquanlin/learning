@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface PowerMapper {
     List<Power> selectUserPower(int user_id);
+    List<Power> selectAllPower();
 }

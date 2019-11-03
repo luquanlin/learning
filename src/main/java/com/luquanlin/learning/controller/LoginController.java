@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,15 +42,27 @@ public class LoginController {
     })
     @ResponseBody
     @RequestMapping("/selectUserLogin")
-    public Map selectUserLogin(String user_account,String user_password){
+    public Map selectUserLogin(String user_account,String user_password,HttpServletRequest request){
         Map result = new HashMap();
         List<User> user = loginService.selectUserLogin(user_account,user_password);
-
+        HttpSession session = request.getSession();
         if(user.size()>0){
             result.put("data",1);
+            session.setAttribute("user",user);
         }else {
             result.put("data",0);
         }
+        return result;
+    }
+
+    @ApiOperation(value="查询session的值", notes="直接返回数据",httpMethod = "POST")
+    @ResponseBody
+    @RequestMapping("/selectSession")
+    public Map selectSession(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Map result = new HashMap();
+        List<User> user =(List<User>) session.getAttribute("user");
+        result.put("data",user);
         return result;
     }
 

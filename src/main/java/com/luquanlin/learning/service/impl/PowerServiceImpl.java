@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: luquanlin
@@ -25,7 +24,6 @@ public class PowerServiceImpl implements PowerService {
     @Override
     public List<PowerParent> selectUserPower(int user_id) {
         List<Power> powerList = powerMapper.selectUserPower(user_id);
-        List<Map<String,List<Power>>> lists = new ArrayList<>();
         List<PowerParent> parentlist = new ArrayList<>();
 
         for(Power item : powerList){
@@ -47,8 +45,33 @@ public class PowerServiceImpl implements PowerService {
             }
             items.setListpower(listed);
         }
+        return parentlist;
+    }
 
+    @Override
+    public List<PowerParent> selectAllPower() {
+        List<Power> powerList = powerMapper.selectAllPower();
+        List<PowerParent> parentlist = new ArrayList<>();
 
+        for(Power item : powerList){
+            PowerParent powerParent = new PowerParent();
+            if (item.getPower_parentid()==0){
+                powerParent.setPower_id(item.getPower_id());
+                powerParent.setDescribe(item.getDescribe());
+                powerParent.setPower_name(item.getPower_name());
+                parentlist.add(powerParent);
+            }
+        }
+
+        for (PowerParent items:parentlist) {
+            List<Power> listed = new ArrayList<>();
+            for (Power item:powerList) {
+                if (items.getPower_id()==item.getPower_parentid()){
+                    listed.add(item);
+                }
+            }
+            items.setListpower(listed);
+        }
         return parentlist;
     }
 }

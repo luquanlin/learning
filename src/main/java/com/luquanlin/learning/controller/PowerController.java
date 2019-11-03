@@ -35,4 +35,14 @@ public class PowerController {
         result.put("data",powers);
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/selectAllPower")
+    @ApiOperation(value="所有权限", notes="直接返回数据",httpMethod = "POST")
+    public Map selectAllPower(){
+        Map result = new HashMap();
+        List<PowerParent> powers = powerService.selectAllPower();
+        result.put("data",powers);
+        return result;
+    }
 }

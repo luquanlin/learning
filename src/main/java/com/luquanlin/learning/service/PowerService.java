@@ -11,4 +11,5 @@ import java.util.List;
  **/
 public interface PowerService {
     List<PowerParent> selectUserPower(int user_id);
+    List<PowerParent> selectAllPower();
 }
