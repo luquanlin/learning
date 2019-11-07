@@ -3,14 +3,55 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luquanlin.learning.mapper.UserMapper">
+    <!--查询所有用户不包括管理员-->
     <select id="selectUsersRole" resultType="HashMap">
-        select u.*,r.role_name from user u
+        select u.*,r.* from user u
           left join userrole ur on ur.user_id=u.user_id
           left join role r on r.role_id=ur.role_id
-        where role_name!="管理员"
+        where  user_state=1 group by user_id
     </select>
 
+    <!--初始化密码-->
     <update id="updateUserPassword">
         update user set user_password="123456" where user_id=#{user_id}
     </update>
+
+    <!--删除用户，隐藏-->
+    <update id="updataUserState">
+        update user set user_state="0" where user_id=#{user_id}
+    </update>
+
+    <!--根据用户ID查询角色-->
+    <select id="selectUserIdRole" resultType="com.luquanlin.learning.entity.UserRole">
+        select ur.role_id from user u
+          left join userrole ur on u.user_id=ur.user_id
+        where u.user_id=#{user_id}
+    </select>
+
+    <!--修改用户信息-->
+    <update id="updateUserInformation">
+        update user set user_name=#{user_name},user_account=#{user_account},user_sex=#{user_sex} where user_id=#{user_id}
+    </update>
+    <!--先删除用户全部角色-->
+    <delete id="deleteUserRoles">
+        delete from userrole where user_id=#{user_id}
+    </delete>
+    <!--添加用户角色-->
+    <insert id="insertUserRoles">
+        insert into userrole(user_id,role_id) values(#{user_id},#{role_id})
+    </insert>
+
+    <!--添加用户信息-->
+    <!--插入基本信息-->
+    <insert id="insertUserInformation">
+        insert into user(user_name,user_account,user_sex) values(#{user_name},#{user_account},#{user_sex})
+    </insert>
+    <!--查询新插入的用户-->
+    <select id="selectUserMaxId" resultType="com.luquanlin.learning.entity.User">
+        select MAX(user_id) as user_id from user
+    </select>
+    <!--插入用户的角色ID-->
+    <insert id="insertUserRolesId">
+        insert into userrole(user_id,role_id) values(#{user_id},#{role_id})
+    </insert>
 </mapper>

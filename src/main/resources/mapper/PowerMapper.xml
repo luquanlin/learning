@@ -8,7 +8,7 @@
         select p.* from userrole ur
           left join rolepower rp on ur.role_id=rp.role_id
           left join power p on rp.power_id=p.power_id
-        where ur.user_id=#{user_id} and p.power_name!=""
+        where ur.user_id=#{user_id} and p.power_name!="" group by power_id
     </select>
 
     <!--查询所有权限-->

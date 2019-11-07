@@ -55,13 +55,14 @@ public class LoginController {
         return result;
     }
 
+
     @ApiOperation(value="查询session的值", notes="直接返回数据",httpMethod = "POST")
     @ResponseBody
     @RequestMapping("/selectSession")
     public Map selectSession(HttpServletRequest request){
         HttpSession session = request.getSession();
-        Map result = new HashMap();
         List<User> user =(List<User>) session.getAttribute("user");
+        Map result = new HashMap();
         result.put("data",user);
         return result;
     }
