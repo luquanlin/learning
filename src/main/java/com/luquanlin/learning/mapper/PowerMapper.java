@@ -14,4 +14,8 @@ import java.util.List;
 public interface PowerMapper {
     List<Power> selectUserPower(int user_id);
     List<Power> selectAllPower();
+    int updateRoleInformation(String power_name,String power_parentid,String power_url,String describe,int power_id);
+    int insertPowerInformation(String power_name,String power_parentid,String power_url,String describe);
+    List<Power> selectMaxPowerId();
+    int updatePowerState(int power_id);
 }

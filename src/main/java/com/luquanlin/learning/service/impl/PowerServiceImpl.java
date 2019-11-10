@@ -1,7 +1,6 @@
 package com.luquanlin.learning.service.impl;
 
 import com.luquanlin.learning.entity.Power;
-import com.luquanlin.learning.entity.bean.PowerParent;
 import com.luquanlin.learning.mapper.PowerMapper;
 import com.luquanlin.learning.service.PowerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,29 +61,45 @@ public class PowerServiceImpl implements PowerService {
     }
 
     @Override
-    public List<PowerParent> selectAllPower() {
-        List<Power> powerList = powerMapper.selectAllPower();
-        List<PowerParent> parentlist = new ArrayList<>();
+    public List<Map<String, Object>> selectAllPower() {
+        List<Power> list = powerMapper.selectAllPower();
+        return buildTree(0, list);
+    }
 
-        for(Power item : powerList){
-            PowerParent powerParent = new PowerParent();
-            if (item.getPower_parentid()==0){
-                powerParent.setPower_id(item.getPower_id());
-                powerParent.setDescribe(item.getDescribe());
-                powerParent.setPower_name(item.getPower_name());
-                parentlist.add(powerParent);
-            }
-        }
+    @Override
+    public List<Power> selectAllPowers(){
+        return powerMapper.selectAllPower();
+    }
 
-        for (PowerParent items:parentlist) {
-            List<Power> listed = new ArrayList<>();
-            for (Power item:powerList) {
-                if (items.getPower_id()==item.getPower_parentid()){
-                    listed.add(item);
-                }
-            }
-            items.setListpower(listed);
+    @Override
+    public boolean updateRoleInformation(String power_name, String power_parentid, String power_url, String describe, int power_id) {
+        int result = powerMapper.updateRoleInformation(power_name, power_parentid, power_url, describe, power_id);
+        if(result > 0){
+            return true;
         }
-        return parentlist;
+        return false;
+    }
+
+    @Override
+    public boolean insertPowerInformation(String power_name, String power_parentid, String power_url, String describe) {
+        int result = powerMapper.insertPowerInformation(power_name, power_parentid, power_url, describe);
+        if(result > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Power> selectMaxPowerId() {
+        return powerMapper.selectMaxPowerId();
+    }
+
+    @Override
+    public boolean updatePowerState(int power_id) {
+        int result = powerMapper.updatePowerState(power_id);
+        if(result > 0){
+            return true;
+        }
+        return false;
     }
 }

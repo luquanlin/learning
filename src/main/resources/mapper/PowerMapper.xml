@@ -8,11 +8,33 @@
         select p.* from userrole ur
           left join rolepower rp on ur.role_id=rp.role_id
           left join power p on rp.power_id=p.power_id
-        where ur.user_id=#{user_id} and p.power_name!="" group by power_id
+        where ur.user_id=#{user_id} and p.power_name!="" and power_state=1 group by power_id
     </select>
 
     <!--查询所有权限-->
     <select id="selectAllPower" resultType="com.luquanlin.learning.entity.Power">
-        select * from power
+        select * from power where power_state=1
     </select>
+
+    <!--更新权限信息-->
+    <update id="updateRoleInformation">
+        update power
+        set power_name=#{power_name},power_parentid=#{power_parentid},power_url=#{power_url},`describe`=#{describe}
+        where power_id=#{power_id}
+    </update>
+
+    <!--插入权限信息-->
+    <insert id="insertPowerInformation">
+        insert into power(power_name,power_parentid,power_url,`describe`)
+        values(#{power_name},#{power_parentid},#{power_url},#{describe})
+    </insert>
+    <!--查询刚插入的ID-->
+    <select id="selectMaxPowerId" resultType="com.luquanlin.learning.entity.Power">
+        select max(power_id) as power_id from power
+    </select>
+
+    <!--删除权限-->
+    <update id="updatePowerState">
+        update power set power_state=0 where power_id=#{power_id}
+    </update>
 </mapper>
