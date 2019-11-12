@@ -11,6 +11,24 @@ public class Coursewares {
     private String coursewares_name;
     private String coursewares_url;
     private int coursewares_sort;
+    private String coursewares_state;
+    private int curriculums_id;
+
+    public int getCurriculums_id() {
+        return curriculums_id;
+    }
+
+    public void setCurriculums_id(int curriculums_id) {
+        this.curriculums_id = curriculums_id;
+    }
+
+    public String getCoursewares_state() {
+        return coursewares_state;
+    }
+
+    public void setCoursewares_state(String coursewares_state) {
+        this.coursewares_state = coursewares_state;
+    }
 
     public int getCoursewares_id() {
         return coursewares_id;

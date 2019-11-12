@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.KindMapper">
+    <!--查询所有课件类别-->
+    <select id="selectAllCategory" resultType="com.luquanlin.learning.entity.Categorys">
+        select * from categorys where categorys_state=1
+    </select>
+
+    <!--删除课件-->
+    <update id="updateCategorysState">
+        update categorys set categorys_state=0 where categorys_id=#{categorys_id}
+    </update>
+
+    <!--修改课件-->
+    <update id="updateCategorysInformation">
+        update categorys set categorys_name=#{categorys_name},categorys_content=#{categorys_content}
+        where categorys_id=#{categorys_id}
+    </update>
+
+    <!--插入课件-->
+    <insert id="insertCategory">
+        insert into categorys(categorys_name,categorys_content) values(#{categorys_name},#{categorys_content})
+    </insert>
+</mapper>

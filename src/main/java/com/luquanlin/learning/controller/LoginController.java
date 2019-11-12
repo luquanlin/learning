@@ -35,7 +35,7 @@ public class LoginController {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
-    @ApiOperation(value="登陆时查询用户是否存在", notes="data:1登陆成功，0登陆失败",httpMethod = "POST")
+    @ApiOperation(value="登陆时查询用户是否存在", notes="data:1管理员,2普通用户，0登陆失败",httpMethod = "POST")
     @ApiImplicitParams ({
         @ApiImplicitParam(paramType="query",name = "user_account" ,value = "用户账号",required = true,dataType = "string"),
         @ApiImplicitParam(paramType="query",name = "user_password" ,value = "用户密码",required = true,dataType = "string")
@@ -47,8 +47,15 @@ public class LoginController {
         List<User> user = loginService.selectUserLogin(user_account,user_password);
         HttpSession session = request.getSession();
         if(user.size()>0){
-            result.put("data",1);
             session.setAttribute("user",user);
+            for(int i=0;i<user.size();i++){
+                if(user.get(i).getRole_name().equals("管理员")){
+                    result.put("data",1);
+                    return result;
+                }else{
+                    result.put("data",2);
+                }
+            }
         }else {
             result.put("data",0);
         }
@@ -112,16 +119,12 @@ public class LoginController {
         return result;
     }
 
-    @ApiIgnore
-    @RequestMapping("/GoIndex")
-    public String GoIndex(){
-        return "index";
-    }
+
 
     @ApiIgnore
     @RequestMapping("/GoLogin")
     public String GoLogin(){
-        return "login/login";
+        return "login/login.html";
     }
 
 }

@@ -15,6 +15,15 @@ public class User implements Serializable {
     private String user_name;
     private String user_sex;
     private String user_state;
+    private String role_name;
+
+    public String getRole_name() {
+        return role_name;
+    }
+
+    public void setRole_name(String role_name) {
+        this.role_name = role_name;
+    }
 
     public int getUser_id() {
         return user_id;

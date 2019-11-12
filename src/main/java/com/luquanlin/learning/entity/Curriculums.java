@@ -12,6 +12,33 @@ public class Curriculums {
     private String curriculums_content;
     private String curriculums_user;
     private String curriculums_hot;
+    private String curriculums_state;
+    private int categorys_id;
+    private String categorys_name;
+
+    public String getCategorys_name() {
+        return categorys_name;
+    }
+
+    public void setCategorys_name(String categorys_name) {
+        this.categorys_name = categorys_name;
+    }
+
+    public int getCategorys_id() {
+        return categorys_id;
+    }
+
+    public void setCategorys_id(int categorys_id) {
+        this.categorys_id = categorys_id;
+    }
+
+    public String getCurriculums_state() {
+        return curriculums_state;
+    }
+
+    public void setCurriculums_state(String curriculums_state) {
+        this.curriculums_state = curriculums_state;
+    }
 
     public int getCurriculums_id() {
         return curriculums_id;

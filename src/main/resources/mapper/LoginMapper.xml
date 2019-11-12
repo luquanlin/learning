@@ -5,7 +5,10 @@
 <mapper namespace="com.luquanlin.learning.mapper.LoginMapper">
     <!--查询登陆是否有用户-->
     <select id="selectUserLogin" resultType="com.luquanlin.learning.entity.User">
-        select * from user where user_account=#{user_account} and user_password=#{user_password}
+        select * from user u
+            left join userrole ur on ur.user_id=u.user_id
+            left join role r on r.role_id=ur.role_id
+        where user_account=#{user_account} and user_password=#{user_password}
     </select>
 
     <!--查询所有用户-->

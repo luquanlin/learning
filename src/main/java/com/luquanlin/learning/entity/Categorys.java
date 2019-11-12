@@ -10,6 +10,16 @@ public class Categorys {
     private int categorys_id;
     private String categorys_name;
     private String categorys_content;
+    private String categorys_state;
+
+
+    public String getCategorys_state() {
+        return categorys_state;
+    }
+
+    public void setCategorys_state(String categorys_state) {
+        this.categorys_state = categorys_state;
+    }
 
     public int getCategorys_id() {
         return categorys_id;

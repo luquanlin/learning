@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.CoursewaresMapper">
+    <!--查询当前课件-->
+    <select id="selectCurriculumsIdCourseWares" resultType="com.luquanlin.learning.entity.Coursewares">
+        select * from coursewares where curriculums_id=#{curriculums_id} and coursewares_state=1
+    </select>
+    
+    <!--添加新课件-->
+    <insert id="insertNewCourseWare">
+        insert into coursewares(curriculums_id,coursewares_name,coursewares_url)
+        values(#{curriculums_id},#{coursewares_name},#{coursewares_url})
+    </insert>
+
+    <!--删除课件-->
+    <update id="updateCourseWareState">
+        update coursewares set coursewares_state=0 where coursewares_id=#{coursewares_id}
+    </update>
+
+    <!--修改课程信息-->
+    <update id="updateCourseWareInformation">
+        update coursewares set coursewares_name=#{coursewares_name},coursewares_url=#{coursewares_url} where coursewares_id=#{coursewares_id}
+    </update>
+
+    <!--查询课程的课件-->
+    <select id="selectCurriculumIdCourses" resultType="com.luquanlin.learning.entity.Coursewares">
+        select * from coursewares where curriculums_id=#{curriculums_id}
+    </select>
+</mapper>

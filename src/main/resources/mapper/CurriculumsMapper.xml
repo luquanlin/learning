@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.CurriculumsMapper">
+    <!--查询课程-->
+    <select id="selectAllCurriculums" resultType="com.luquanlin.learning.entity.Curriculums">
+        select * from curriculums cc
+          left join categorys cg on cg.categorys_id=cc.categorys_id
+        where categorys_state=1 and curriculums_state=1
+    </select>
+
+    <!--插入课程信息-->
+    <insert id="insertCurriculumsInformation">
+        insert into curriculums(categorys_id,curriculums_name,curriculums_content,curriculums_user)
+        values(#{categorys_id},#{curriculums_name},#{curriculums_content},#{curriculums_user})
+    </insert>
+
+    <!--修改课程信息-->
+    <update id="updateCurriculumsInformation">
+        update curriculums set categorys_id=#{categorys_id},curriculums_name=#{curriculums_name},curriculums_content=#{curriculums_content},curriculums_user=#{curriculums_user}
+        where curriculums_id=#{curriculums_id}
+    </update>
+
+    <!--删除课程-->
+    <update id="updateCurriculumsState">
+        update curriculums set curriculums_state=0 where curriculums_id=#{curriculums_id}
+    </update>
+
+    <!--查询课程前五-->
+    <select id="selectCurriculumsFive" resultType="com.luquanlin.learning.entity.Curriculums">
+        select * from curriculums order by curriculums_hot limit 5
+    </select>
+    
+    <!--查询当前类别的课程-->
+    <select id="selectCategorysIdCurriculums" resultType="com.luquanlin.learning.entity.Curriculums">
+        select * from curriculums where categorys_id=#{categorys_id}
+    </select>
+</mapper>
